@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useEffect, useCallback, useState } from 'react';
 import { getFeaturedEvents } from '../dummy-data';
 import { FeaturedEvent } from './types';
+import EventList from '../components/events/EventList';
 
 function HomePage() {
   const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>([]);
@@ -18,13 +19,7 @@ function HomePage() {
 
   return (
     <div>
-      <ul>
-        {featuredEvents.map(data => (
-          <li key={data.id}>
-            <Link href={`/events/${data.id}`}>{data.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <EventList items={featuredEvents} />
     </div>
   );
 }
