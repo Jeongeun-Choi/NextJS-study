@@ -1,16 +1,29 @@
 import Link from 'next/link';
+import { useEffect, useCallback, useState } from 'react';
+import { getFeaturedEvents } from '../dummy-data';
+import { FeaturedEvent } from './types';
 
 function HomePage() {
+  const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>([]);
+
+  const getEvents = useCallback(() => {
+    const featuredList = getFeaturedEvents();
+
+    setFeaturedEvents(featuredList);
+  }, []);
+
+  useEffect(() => {
+    getEvents();
+  }, []);
+
   return (
     <div>
-      <h1>The Home Page</h1>
       <ul>
-        <li>
-          <Link href="/portfolio">Portfolio</Link>
-        </li>
-        <li>
-          <Link href="/clients">Clients</Link>
-        </li>
+        {featuredEvents.map(data => (
+          <li key={data.id}>
+            <Link href={`/events/${data.id}`}>{data.title}</Link>
+          </li>
+        ))}
       </ul>
     </div>
   );
