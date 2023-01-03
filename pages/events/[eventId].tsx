@@ -4,6 +4,9 @@ import { useCallback } from 'react';
 import { getEventById } from '../../dummy-data';
 import { useState } from 'react';
 import { FeaturedEvent } from '../types';
+import EventSummary from '../../components/event-detail/event-summary';
+import EventLogistics from '../../components/event-detail/event-logistics';
+import EventContent from '../../components/event-detail/event-content';
 
 const initDetail = {
   id: '',
@@ -30,10 +33,22 @@ const EventDetailPage = () => {
     getEventDetail();
   }, []);
 
+  if (!eventDetail) {
+    return <p>No event found!</p>;
+  }
+
   return (
     <>
-      <div>이벤트 아이디 : {eventId}</div>
-      <div>이벤트 이름 : {eventDetail.title}</div>
+      <EventSummary title={eventDetail.title} />
+      <EventLogistics
+        date={eventDetail.date}
+        address={eventDetail.location}
+        image={eventDetail.image}
+        imageAlt={eventDetail.title}
+      />
+      <EventContent>
+        <p>{eventDetail.description}</p>
+      </EventContent>
     </>
   );
 };
