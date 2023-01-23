@@ -1,38 +1,28 @@
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useCallback } from 'react';
-import { getEventById } from '../../dummy-data';
-import { useState } from 'react';
-import { FeaturedEvent } from '../types';
-import EventSummary from '../../components/event-detail/event-summary';
-import EventLogistics from '../../components/event-detail/event-logistics';
-import EventContent from '../../components/event-detail/event-content';
-import ErrorAlert from '../../components/ui/ErrorAlert';
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
+import { useState } from "react";
+import { FeaturedEvent } from "../types";
+import EventSummary from "../../components/event-detail/event-summary";
+import EventLogistics from "../../components/event-detail/event-logistics";
+import EventContent from "../../components/event-detail/event-content";
+import ErrorAlert from "../../components/ui/ErrorAlert";
+import { getEventById } from "../../helpers/app-utils";
 
 const initDetail = {
-  id: '',
-  title: '',
-  description: '',
-  location: '',
-  date: '',
-  image: '',
-  isFeatured: false
+  id: "",
+  title: "",
+  description: "",
+  location: "",
+  date: "",
+  image: "",
+  isFeatured: false,
 };
-const EventDetailPage = () => {
-  const [eventDetail, setEventDetail] = useState<FeaturedEvent>(initDetail);
+const EventDetailPage = (props: { eventDetail: FeaturedEvent }) => {
+  const [eventDetail, setEventDetail] = useState<FeaturedEvent>(
+    props.eventDetail
+  );
   const router = useRouter();
-
-  const { eventId } = router.query;
-
-  const getEventDetail = useCallback(() => {
-    const detail = getEventById(eventId);
-
-    setEventDetail(detail as FeaturedEvent);
-  }, []);
-
-  useEffect(() => {
-    getEventDetail();
-  }, []);
 
   if (!eventDetail) {
     return (
@@ -59,3 +49,15 @@ const EventDetailPage = () => {
 };
 
 export default EventDetailPage;
+
+export async function getServerSideProps(context: {
+  params: { eventId: string };
+}) {
+  const { params } = context;
+
+  const { eventId } = params;
+
+  const data = await getEventById(eventId);
+
+  return { props: { eventDetail: data[eventId] } };
+}

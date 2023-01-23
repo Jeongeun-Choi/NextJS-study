@@ -1,20 +1,12 @@
-import { useEffect, useCallback, useState } from "react";
-import { getFeaturedEvents } from "../dummy-data";
+import { useState } from "react";
 import { FeaturedEvent } from "./types";
 import EventList from "../components/events/EventList";
+import { getFeaturedEvents } from "../helpers/app-utils";
 
-function HomePage() {
-  const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>([]);
-
-  const getEvents = useCallback(() => {
-    const featuredList = getFeaturedEvents();
-
-    setFeaturedEvents(featuredList);
-  }, []);
-
-  useEffect(() => {
-    getEvents();
-  }, []);
+function HomePage(props: { featuredData: FeaturedEvent[] }) {
+  const [featuredEvents, setFeaturedEvents] = useState<FeaturedEvent[]>(
+    props.featuredData
+  );
 
   return (
     <div>
@@ -24,3 +16,12 @@ function HomePage() {
 }
 
 export default HomePage;
+
+export async function getServerSideProps() {
+  const featuredData = await getFeaturedEvents();
+
+  return {
+    props: { featuredData: featuredData },
+    revalidate: 1800,
+  };
+}
