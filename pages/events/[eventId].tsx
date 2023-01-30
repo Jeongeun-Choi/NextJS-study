@@ -8,6 +8,7 @@ import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "../../components/ui/ErrorAlert";
 import { getEventById } from "../../helpers/app-utils";
+import Head from "next/head";
 
 const initDetail = {
   id: "",
@@ -34,6 +35,10 @@ const EventDetailPage = (props: { eventDetail: FeaturedEvent }) => {
 
   return (
     <>
+      <Head>
+        <title>{eventDetail.title}</title>
+        <meta name="description" content={eventDetail.description}></meta>
+      </Head>
       <EventSummary title={eventDetail.title} />
       <EventLogistics
         date={eventDetail.date}

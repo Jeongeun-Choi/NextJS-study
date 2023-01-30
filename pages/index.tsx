@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useState } from "react";
 import { FeaturedEvent } from "./types";
 import EventList from "../components/events/EventList";
@@ -10,6 +11,10 @@ function HomePage(props: { featuredData: FeaturedEvent[] }) {
 
   return (
     <div>
+      <Head>
+        <title>NextJS Events</title>
+        <meta name="description" content="I study NextJS :)"></meta>
+      </Head>
       <EventList items={featuredEvents} />
     </div>
   );
@@ -21,7 +26,7 @@ export async function getServerSideProps() {
   const featuredData = await getFeaturedEvents();
 
   return {
-    props: { featuredData: featuredData },
-    revalidate: 1800,
+    props: { featuredData },
+    // revalidate: 1800,
   };
 }

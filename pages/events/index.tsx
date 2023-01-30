@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useState } from "react";
 import { FeaturedEvent } from "../types";
 import { useRouter } from "next/router";
@@ -17,6 +18,10 @@ const EventsPage = (props: { allEvents: FeaturedEvent[] }) => {
 
   return (
     <div>
+      <Head>
+        <title>All Events</title>
+        <meta name="description" content="I study NextJS :)"></meta>
+      </Head>
       <EventSearch onSearch={findEventsHandler} />
       <EventList items={allEvents} />
     </div>

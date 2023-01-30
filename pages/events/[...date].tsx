@@ -5,6 +5,7 @@ import ResultsTitle from "../../components/events/ResultsTitle";
 import Button from "../../components/ui/button";
 import ErrorAlert from "../../components/ui/ErrorAlert";
 import { getFilteredEvents } from "../../helpers/app-utils";
+import Head from "next/head";
 
 type FilteredEventsPageProps = {
   filteredEventList: any[];
@@ -60,6 +61,13 @@ const FilteredEventsPage = ({
 
   return (
     <>
+      <Head>
+        <title>Filtered Events</title>
+        <meta
+          name="description"
+          content={`All events for ${date.month}/${date.year}`}
+        ></meta>
+      </Head>
       <ResultsTitle date={dates} />
       <EventList items={filteredEventList} />
     </>
