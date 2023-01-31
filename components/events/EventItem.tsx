@@ -5,6 +5,7 @@ import AddressIcon from "../icons/address-icon";
 import ArrowRightIcon from "../icons/arrow-right-icon";
 import classes from "./event-item.module.css";
 import Button from "../ui/button";
+import Image from "next/image";
 
 const EventItem = ({ item }: { item: FeaturedEvent }) => {
   const hymanReadableDate = new Date(item.date).toLocaleDateString("en-US", {
@@ -17,7 +18,12 @@ const EventItem = ({ item }: { item: FeaturedEvent }) => {
   const exploreLink = `/events/${item.id}`;
   return (
     <li className={classes.item}>
-      <img src={`/${item?.image}`} alt={item?.title} />
+      <Image
+        src={`/${item?.image}`}
+        alt={item?.title}
+        width={250}
+        height={160}
+      />
       <div className={classes.content}>
         <div className={classes.summary}>
           <h2>{item?.title}</h2>
