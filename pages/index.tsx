@@ -1,8 +1,9 @@
-import React, { MouseEvent, useCallback, useRef } from "react";
+import React, { MouseEvent, useCallback, useRef, useState } from "react";
 
 const HomePage = () => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const feedbackInputRef = useRef<HTMLTextAreaElement>(null);
+  const [feedbackList, setFeedbackList] = useState<any[]>([]);
 
   const handleSubmitFeedback = useCallback((e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,6 +22,15 @@ const HomePage = () => {
       .then((data) => console.log(data));
   }, []);
 
+  const handleLoadFeedback = useCallback(() => {
+    fetch("/api/feedback")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setFeedbackList(data.feedback);
+      });
+  }, []);
+
   return (
     <div>
       <h1>The Home Page</h1>
@@ -35,6 +45,13 @@ const HomePage = () => {
         </div>
         <button type="submit">Send Feedback</button>
       </form>
+      <hr />
+      <button onClick={handleLoadFeedback}>Load Feedback</button>
+      <ul>
+        {feedbackList.map((feedback) => (
+          <li key={feedback.id}>{feedback.text}</li>
+        ))}
+      </ul>
     </div>
   );
 };
