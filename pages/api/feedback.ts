@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
 
-const buildFilePath = () => {
+export const buildFeedbackPath = () => {
   return path.join(process.cwd(), "data", "feedback.json");
 };
 
-const extractFeedback = (filePath: string) => {
+export const extractFeedback = (filePath: string) => {
   const fileData = fs.readFileSync(filePath);
   const data = JSON.parse(fileData);
   return data;
@@ -22,14 +22,14 @@ function handler(req, res) {
       text: feedback,
     };
 
-    const filePath = buildFilePath();
+    const filePath = buildFeedbackPath();
     const data = extractFeedback(filePath);
 
     data.push(newFeedback);
     fs.writeFileSync(filePath, JSON.stringify(data));
     res.status(201).json({ message: "success", feedback: newFeedback });
   } else {
-    const filePath = buildFilePath();
+    const filePath = buildFeedbackPath();
     const data = extractFeedback(filePath);
     res.status(200).json({ feedback: data });
   }
