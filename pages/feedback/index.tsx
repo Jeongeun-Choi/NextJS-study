@@ -6,7 +6,7 @@ const FeedbackPage = (props) => {
   const handleClickShowDetail = useCallback(
     (e: MouseEvent<HTMLButtonElement>) => {
       const feedbackId = e.currentTarget.dataset.id;
-      fetch(`/api/${feedbackId}`)
+      fetch(`/api/feedback/${feedbackId}`)
         .then((res) => res.json())
         .then((data) => {
           setFeedbackData(data.feedback);
