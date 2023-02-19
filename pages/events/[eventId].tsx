@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
 import { useState } from "react";
 import { FeaturedEvent } from "../types";
 import EventSummary from "../../components/event-detail/event-summary";
@@ -9,6 +8,7 @@ import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "../../components/ui/ErrorAlert";
 import { getEventById } from "../../helpers/app-utils";
 import Head from "next/head";
+import Comments from "../../components/input/comments";
 
 const initDetail = {
   id: "",
@@ -49,6 +49,7 @@ const EventDetailPage = (props: { eventDetail: FeaturedEvent }) => {
       <EventContent>
         <p>{eventDetail.description}</p>
       </EventContent>
+      <Comments eventId={eventDetail.id} />
     </>
   );
 };
@@ -64,5 +65,5 @@ export async function getServerSideProps(context: {
 
   const data = await getEventById(eventId);
 
-  return { props: { eventDetail: data[eventId] } };
+  return { props: { eventDetail: data } };
 }
