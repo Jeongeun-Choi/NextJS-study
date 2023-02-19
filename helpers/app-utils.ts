@@ -5,7 +5,7 @@ type DateFilter = {
 
 export const getAllEvents = async () => {
   const response = await fetch(
-    "https://nextjs-course-e8b27-default-rtdb.firebaseio.com/events.json"
+    "https://nextjs-course-1ed28-default-rtdb.firebaseio.com/events.json"
   );
 
   const data = await response.json();
