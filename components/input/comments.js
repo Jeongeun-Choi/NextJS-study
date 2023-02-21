@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import CommentList from "./comment-list";
 import NewComment from "./new-comment";
@@ -28,13 +28,12 @@ function Comments(props) {
   }
 
   const getCommentList = useCallback(() => {
-    fetch(`/api/comments`)
+    fetch(`/api/comments/${eventId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.comments);
         setCommentList(data.comments);
       });
-  }, []);
+  }, [eventId]);
 
   useEffect(() => {
     getCommentList();
