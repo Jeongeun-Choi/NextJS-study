@@ -1,4 +1,10 @@
-import { createContext, PropsWithChildren, useCallback, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 type NotificationType = {
   title: string;
@@ -22,6 +28,21 @@ const NotificationContext = createContext<NotificationContextType | null>({
 export function NotificationContextProvider({ children }: PropsWithChildren) {
   const [activeNotification, setActiveNotification] =
     useState<NotificationType | null>(null);
+
+  useEffect(() => {
+    if (
+      activeNotification &&
+      (activeNotification.status === "success" ||
+        activeNotification.status === "error")
+    ) {
+      const timer = setTimeout(() => {
+        setActiveNotification(null);
+      }, 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [activeNotification]);
 
   const handleShowNotification = (notificationData: NotificationType) => {
     setActiveNotification(notificationData);

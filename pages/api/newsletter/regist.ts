@@ -15,10 +15,10 @@ const handleRegistEmail = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await insertDocument(client, "email", { email });
     client.close();
+    res.status(200).json({ email });
   } catch (e) {
     res.status(500).json({ message: "Inserting data failed!" });
   }
-  res.status(200).json({ email });
 };
 
 export default handleRegistEmail;
